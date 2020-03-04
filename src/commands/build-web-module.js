@@ -5,8 +5,6 @@ import moduleBuild from '../moduleBuild'
  */
 export default function buildModule(args, cb) {
   moduleBuild(args, {
-    babel: {
-      stage: 1,
-    }
+    babel: { }
   }, cb)
 }

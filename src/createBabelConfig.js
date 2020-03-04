@@ -19,7 +19,6 @@ type BuildOptions = {
   presets?: string[],
   removePropTypes?: true | Object,
   setRuntimePath?: false,
-  stage?: number,
   webpack?: boolean,
 };
 
@@ -33,10 +32,8 @@ type UserOptions = {
   reactConstantElements?: boolean,
   removePropTypes?: false | Object,
   runtime?: boolean | string,
-  stage?: false | number,
 };
 
-const DEFAULT_STAGE = 2
 const RUNTIME_PATH = path.dirname(require.resolve('@babel/runtime/package'))
 
 export default function createBabelConfig(
@@ -51,7 +48,6 @@ export default function createBabelConfig(
     presets: buildPresets,
     removePropTypes: buildRemovePropTypes = false,
     setRuntimePath,
-    stage: buildStage = DEFAULT_STAGE,
     webpack = true,
   } = buildConfig
 
@@ -65,7 +61,6 @@ export default function createBabelConfig(
     reactConstantElements,
     removePropTypes: userRemovePropTypes,
     runtime: userRuntime,
-    stage: userStage,
   } = userConfig
 
   let presets: BabelPluginConfig[] = []
@@ -105,17 +100,6 @@ export default function createBabelConfig(
     })
   }
 
-  // Stage preset
-  let stage = userStage != null ? userStage : buildStage
-  if (typeof stage == 'number') {
-    // presets.push(require.resolve(`babel-preset-stage-${stage}`))
-    // Decorators are stage 2 but not supported by Babel yet - add the legacy
-    // transform for support in the meantime.
-    // if (stage <= 2) {
-    //   plugins.push(require.resolve('babel-plugin-transform-decorators-legacy'))
-    // }
-  }
-
   if (userPresets) {
     presets = presets.concat(userPresets)
   }
@@ -142,8 +126,11 @@ export default function createBabelConfig(
   // Turn regenerator on by default to enable use of async/await and generators
   // without configuration.
   let runtimeTransformOptions: Object = {
-    helpers: false,
+    absoluteRuntime: false,
+    corejs: false,
+    helpers: true,
     regenerator: true,
+    useESModules: true,
   }
   if (setRuntimePath !== false) {
     runtimeTransformOptions.moduleName = RUNTIME_PATH

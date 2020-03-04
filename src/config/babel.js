@@ -14,7 +14,6 @@ export function processBabelConfig({report, userConfig}) {
     removePropTypes,
     reactConstantElements,
     runtime,
-    stage,
     config,
     ...unexpectedConfig
   } = userConfig.babel
@@ -122,27 +121,6 @@ export function processBabelConfig({report, userConfig}) {
       runtime,
       `Must be ${chalk.cyan('Boolean')}, ${chalk.cyan("'helpers'")} or ${chalk.cyan("'polyfill'")}`
     )
-  }
-
-  // stage
-  if ('stage' in userConfig.babel) {
-    if (typeOf(stage) === 'number') {
-      if (stage < 0 || stage > 3) {
-        report.error(
-          'babel.stage',
-          stage,
-          `Must be between ${chalk.cyan(0)} and ${chalk.cyan(3)}`
-        )
-      }
-    }
-    else if (stage !== false) {
-      report.error(
-        'babel.stage',
-        stage,
-        `Must be a ${chalk.cyan('Number')} between ${chalk.cyan('0')} and ${chalk.cyan('3')} (to choose a stage preset), ` +
-        `or ${chalk.cyan('false')} (to disable use of a stage preset)`
-      )
-    }
   }
 
   // config

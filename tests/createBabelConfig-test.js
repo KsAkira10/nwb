@@ -21,7 +21,6 @@ describe('createBabelConfig()', () => {
       expect(createBabelConfig()).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: true, modules: false}],
-          require.resolve('babel-preset-stage-2'),
         ],
         plugins: [
           require.resolve('babel-plugin-transform-decorators-legacy'),
@@ -35,12 +34,10 @@ describe('createBabelConfig()', () => {
   context('with build config', () => {
     it('generates build-configured Babel config', () => {
       expect(createBabelConfig({
-        modules: 'commonjs',
-        stage: 0,
+        modules: 'commonjs'
       })).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: true, modules: 'commonjs'}],
-          require.resolve('babel-preset-stage-0'),
         ],
         plugins: [
           require.resolve('babel-plugin-transform-decorators-legacy'),
@@ -53,7 +50,6 @@ describe('createBabelConfig()', () => {
       expect(createBabelConfig({
         presets: ['react-prod'],
       }, {
-        stage: false,
       })).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: true, modules: false}],
@@ -70,7 +66,6 @@ describe('createBabelConfig()', () => {
       expect(createBabelConfig({
         removePropTypes: true,
       }, {
-        stage: false,
       })).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: true, modules: false}],
@@ -88,7 +83,6 @@ describe('createBabelConfig()', () => {
       })).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: true, modules: false}],
-          require.resolve('babel-preset-stage-2'),
         ],
         plugins: [
           require.resolve('babel-plugin-transform-decorators-legacy'),
@@ -106,7 +100,6 @@ describe('createBabelConfig()', () => {
   context('with user config', () => {
     it('generates user-configured Babel config', () => {
       expect(createBabelConfig({}, {
-        stage: 0,
         loose: false,
         runtime: true,
         plugins: ['test-plugin'],
@@ -114,7 +107,6 @@ describe('createBabelConfig()', () => {
       })).toEqual({
         presets: [
           [require.resolve('babel-preset-env'), {loose: false, modules: false}],
-          require.resolve('babel-preset-stage-0'),
           'test-preset',
         ],
         plugins: [
@@ -134,8 +126,6 @@ describe('createBabelConfig()', () => {
         })).toEqual({
           presets: [
             [require.resolve('babel-preset-env'), {loose: true, modules: false}],
-
-            require.resolve('babel-preset-stage-2'),
           ],
           plugins: [
             require.resolve('babel-plugin-transform-decorators-legacy'),
