@@ -142,7 +142,7 @@ export default function createBabelConfig(
   // Turn regenerator on by default to enable use of async/await and generators
   // without configuration.
   let runtimeTransformOptions: Object = {
-    helpers: true,
+    helpers: false,
     regenerator: true,
   }
   if (setRuntimePath !== false) {

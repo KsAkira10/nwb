@@ -8,8 +8,8 @@
     "nwb": "./lib/bin/nwb.js"
   },
   "scripts": {
-    "build": "NODE_ENV=production npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
-    "start": "NODE_ENV=development rimraf lib && babel src --watch --out-dir lib",
+    "build": "NODE_ENV=production BABEL_ENV=production npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
+    "start": "NODE_ENV=development BABEL_ENV=development rimraf lib && babel src --watch --out-dir lib",
     "flow": "flow",
     "lint": "eslint *.js src tests",
     "lint:fix": "npm run lint -- --fix",
