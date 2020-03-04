@@ -8,8 +8,8 @@
     "nwb": "./lib/bin/nwb.js"
   },
   "scripts": {
-    "build": "npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
-    "start": "rimraf lib && babel src --watch --out-dir lib",
+    "build": "NODE_ENV=production npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
+    "start": "NODE_ENV=development rimraf lib && babel src --watch --out-dir lib",
     "flow": "flow",
     "lint": "eslint *.js src tests",
     "lint:fix": "npm run lint -- --fix",
@@ -106,6 +106,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.8.6",
+    "babel-preset-react-app": "^9.1.1",
     "cross-env": "5.2.0",
     "eslint-config-jonnybuchanan": "6.0.0",
     "eventsource": "1.0.7",
@@ -129,6 +130,7 @@
   ],
   "babel": {
     "presets": [
+      "@babel/preset-react",
       "@babel/preset-flow",
       [
         "@babel/preset-env",
@@ -142,6 +144,12 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "corejs": 2
+        }
+      ],
       "add-module-exports"
     ],
     "env": {
