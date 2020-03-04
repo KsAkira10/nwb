@@ -8,8 +8,8 @@
     "nwb": "./lib/bin/nwb.js"
   },
   "scripts": {
-    "build": "NODE_ENV=production BABEL_ENV=production npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
-    "start": "NODE_ENV=development BABEL_ENV=development rimraf lib && babel src --watch --out-dir lib",
+    "build": "npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
+    "start": "rimraf lib && babel src --watch --out-dir lib",
     "flow": "flow",
     "lint": "eslint *.js src tests",
     "lint:fix": "npm run lint -- --fix",
@@ -40,9 +40,10 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.6",
-    "@babel/preset-flow": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/runtime": "^7.8.4",
+    "@babel/runtime-corejs2": "^7.8.4",
+    "@babel/runtime-corejs3": "^7.8.4",
     "@insin/npm-install-webpack-plugin": "5.0.0",
     "autoprefixer": "9.4.10",
     "babel-loader": "^8.0.6",
@@ -102,12 +103,15 @@
     "webpack-dev-server": "^3.2.1",
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.2.1",
-    "whatwg-fetch": "3.0.0"
+    "whatwg-fetch": "3.0.0",
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",    
+    "babel-preset-proposals": "0.1.0",
+    "react-hot-loader": "4.3.11",
+    "react-hot-loader-loader": "0.0.6"
   },
   "devDependencies": {
     "@babel/register": "^7.8.6",
-    "@babel/runtime-corejs2": "^7.8.4",
-    "@babel/runtime-corejs3": "^7.8.4",
+    "@babel/preset-flow": "^7.8.3",
     "cross-env": "5.2.0",
     "eslint-config-jonnybuchanan": "6.0.0",
     "eventsource": "1.0.7",
@@ -130,11 +134,14 @@
     "tooling"
   ],
   "babel": {
+    "ignore": [
+      "src/react/importModule.js",
+      "src/react/renderShim.js"
+    ],
     "presets": [
-      "@babel/preset-react",
-      "@babel/preset-flow",
+      "@babel/flow",
       [
-        "@babel/preset-env",
+        "@babel/env",
         {
           "loose": true,
           "targets": {
@@ -144,7 +151,12 @@
       ]
     ],
     "plugins": [
-      "@babel/plugin-proposal-class-properties",
+      [
+        "@babel/plugin-proposal-class-properties",
+        {
+          "loose": true
+        }
+      ],
       "add-module-exports"
     ],
     "env": {

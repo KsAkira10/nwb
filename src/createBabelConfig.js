@@ -2,7 +2,6 @@
 import path from 'path'
 
 import {UserError} from './errors'
-import {typeOf} from './utils'
 
 type BabelPluginConfig = string | [string, Object];
 
@@ -12,13 +11,15 @@ type BabelConfig = {
 };
 
 type BuildOptions = {
+  absoluteRuntime?: false,
   commonJSInterop?: boolean,
   env?: Object,
   modules?: false | string,
   plugins?: BabelPluginConfig[],
-  presets?: string[],
+  presets?: BabelPluginConfig[],
+  proposals?: Object,
   removePropTypes?: true | Object,
-  setRuntimePath?: false,
+  runtime?: Object,
   webpack?: boolean,
 };
 
@@ -29,12 +30,11 @@ type UserOptions = {
   loose?: boolean,
   plugins?: BabelPluginConfig[],
   presets?: BabelPluginConfig[],
+  proposals?: false | Object,
   reactConstantElements?: boolean,
   removePropTypes?: false | Object,
-  runtime?: boolean | string,
+  runtime?: false | Object,
 };
-
-const RUNTIME_PATH = path.dirname(require.resolve('@babel/runtime/package'))
 
 export default function createBabelConfig(
   buildConfig: BuildOptions = {},
@@ -42,12 +42,14 @@ export default function createBabelConfig(
   userConfigPath: string = ''
 ): BabelConfig {
   let {
+    absoluteRuntime,
     commonJSInterop,
     modules = false,
     plugins: buildPlugins = [],
     presets: buildPresets,
+    proposals: buildProposals = {},
     removePropTypes: buildRemovePropTypes = false,
-    setRuntimePath,
+    runtime: buildRuntime,
     webpack = true,
   } = buildConfig
 
@@ -58,6 +60,7 @@ export default function createBabelConfig(
     loose,
     plugins: userPlugins = [],
     presets: userPresets,
+    proposals: userProposals = {},
     reactConstantElements,
     removePropTypes: userRemovePropTypes,
     runtime: userRuntime,
@@ -67,7 +70,7 @@ export default function createBabelConfig(
   let plugins: BabelPluginConfig[] = []
 
   // Default to loose mode unless explicitly configured
-  if (typeOf(loose) === 'undefined') {
+  if (typeof loose === 'undefined') {
     loose = true
   }
 
@@ -93,11 +96,27 @@ export default function createBabelConfig(
           ])
         }
       }
-      // All other presets are assumed to be paths to a preset module
       else {
         presets.push(preset)
       }
     })
+  }
+
+  // Proposal plugins
+  if (userProposals !== false) {
+    presets.push([require.resolve('babel-preset-proposals'), {
+      // Pass on nwb's loose = true default
+      loose,
+      decorators: true,
+      // Must be loose in combination with legacy decorators
+      classProperties: {loose: true},
+      exportDefaultFrom: true,
+      exportNamespaceFrom: true,
+      ...buildProposals,
+      ...userProposals,
+      // Required for non-local usage of nwb
+      absolutePaths: true
+    }])
   }
 
   if (userPresets) {
@@ -122,30 +141,15 @@ export default function createBabelConfig(
     }
   }
 
-  // The Runtime transform imports various things into a module based on usage.
-  // Turn regenerator on by default to enable use of async/await and generators
-  // without configuration.
-  let runtimeTransformOptions: Object = {
-    absoluteRuntime: false,
-    corejs: 3,
-    useESModules: true,
-  }
-  if (setRuntimePath !== false) {
-    runtimeTransformOptions.moduleName = RUNTIME_PATH
-  }
+  // The Runtime transform imports helpers and the regenerator runtime when required
+  // See https://babeljs.io/docs/en/babel-plugin-transform-runtime.html
   if (userRuntime !== false) {
-    if (userRuntime === true) {
-      // Enable all features
-      runtimeTransformOptions = {}
-      if (setRuntimePath !== false) {
-        runtimeTransformOptions.moduleName = RUNTIME_PATH
-      }
-    }
-    else if (typeOf(userRuntime) === 'string') {
-      // Enable the named feature
-      runtimeTransformOptions[userRuntime] = true
-    }
-    plugins.push([require.resolve('@babel/plugin-transform-runtime'), runtimeTransformOptions])
+    plugins.push([require.resolve('@babel/plugin-transform-runtime'), {
+      absoluteRuntime: absoluteRuntime !== false ? path.resolve(__dirname, '..') : false,
+      useESModules: modules === false,
+      ...typeof buildRuntime === 'object' ? buildRuntime : {},
+      ...typeof userRuntime === 'object' ? userRuntime : {}
+    }])
   }
 
   // Allow Babel to parse (but not transform) import() when used with Webpack

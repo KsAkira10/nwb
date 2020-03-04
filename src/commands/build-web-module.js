@@ -5,6 +5,10 @@ import moduleBuild from '../moduleBuild'
  */
 export default function buildModule(args, cb) {
   moduleBuild(args, {
-    babel: { }
+    babel: {
+      runtime: {
+        helpers: false
+      }
+    }
   }, cb)
 }

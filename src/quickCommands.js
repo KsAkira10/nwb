@@ -75,7 +75,11 @@ export function createBuildConfig(args: Object, options: QuickConfigOptions) {
   let filenamePattern = production ? '[name].[chunkhash:8].js' : '[name].js'
 
   let config: Object = {
-    babel: { },
+    babel: {
+      proposals: {
+        all: true
+      }
+    },
     devtool: 'source-map',
     output: {
       chunkFilename: filenamePattern,
@@ -135,6 +139,9 @@ export function createServeConfig(args: Object, options: QuickConfigOptions) {
 
   let config: Object = {
     babel: {
+      proposals: {
+        all: true
+      }
     },
     output: {
       filename: 'app.js',

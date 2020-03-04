@@ -6,7 +6,11 @@ import {modulePath} from '../utils'
 function getBaseConfig(): Object {
   return {
     babel: {
-      presets: [require.resolve('@babel/preset-react')]
+      presets: [
+        [require.resolve('@babel/preset-react'), {
+          development: process.env.NODE_ENV !== 'production'
+        }]
+      ]
     },
   }
 }
@@ -115,12 +119,28 @@ class ReactConfig {
     return getBuildConfig(this._args)
   }
 
-  getServeConfig = () => {
+  // TODO Document configuring your main app module for HMR if it differs from src/App.js
+  getServeConfig = (hotLoaderModuleTest : RegExp = /[/\\]src[/\\]App.js$/) => {
     let config = getBaseConfig()
-    config.babel.presets.push(require.resolve('./react-dev-preset'))
 
     if (this._args.hmr !== false && this._args.hmre !== false) {
-      config.babel.presets.push(require.resolve('./react-hmre-preset'))
+      // Use react-hot-loader to handle HMR while keeping component state
+      config.babel.plugins = [require.resolve('react-hot-loader/babel')]
+      // Ensure injected react-hot-loader/patch can be resolved
+      config.resolve = {
+        alias: {
+          react: modulePath('react'),
+          'react-hot-loader': path.dirname(require.resolve('react-hot-loader/package'))
+        }
+      }
+      // Apply react-hot-loader to the module containing the main app component
+      config.rules = {
+        extra: [{
+          id: 'react-hot-loader',
+          test: hotLoaderModuleTest,
+          loader: require.resolve('react-hot-loader-loader'),
+        }]
+      }
     }
 
     return config
@@ -143,7 +163,8 @@ class ReactConfig {
 
   getQuickServeConfig = () => {
     return {
-      commandConfig: this.getServeConfig(),
+      // Apply react-hot-loader to the shim module importing the entry component
+      commandConfig: this.getServeConfig(/[/\\]nwb[/\\]lib[/\\]react[/\\]importModule\.js$/),
       ...this._getQuickConfig(),
     }
   }

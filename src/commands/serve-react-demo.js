@@ -13,7 +13,9 @@ export default function serveReactDemo(args, cb) {
 
   let config = {
     babel: {
-      presets: [require.resolve('@babel/preset-react')],
+      presets: [
+        [require.resolve('@babel/preset-react'), {development: true}]
+      ],
     },
     entry: [path.resolve('demo/src/index.js')],
     output: {
@@ -29,9 +31,10 @@ export default function serveReactDemo(args, cb) {
     },
   }
 
-  if (args.hmr !== false && args.hmre !== false) {
-    config.babel.presets.push(require.resolve('../react/react-hmre-preset'))
-  }
+  // TODO Fix HMR for demos
+  // if (args.hmr !== false && args.hmre !== false) {
+  //   config.babel.presets.push(require.resolve('../react/react-hmre-preset'))
+  // }
 
   if (directoryExists('demo/public')) {
     config.plugins.copy = [{from: path.resolve('demo/public'), to: dist}]
