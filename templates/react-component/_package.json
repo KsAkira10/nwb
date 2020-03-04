@@ -24,7 +24,7 @@
     "react": "{{reactPeerVersion}}"
   },
   "devDependencies": {
-    "nwb": "{{nwbVersion}}"
+    "@ksakira10/nwb": "{{nwbVersion}}"
   },
   "author": "",
   "homepage": "",

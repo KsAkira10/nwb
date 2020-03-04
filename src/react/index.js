@@ -6,7 +6,7 @@ import {modulePath} from '../utils'
 function getBaseConfig(): Object {
   return {
     babel: {
-      presets: [require.resolve('babel-preset-react')]
+      presets: [require.resolve('@babel/preset-react')]
     },
   }
 }

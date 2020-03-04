@@ -14,6 +14,6 @@ This is what versions mean during nwb's initial development:
 
 - `0.y.z` versions are minor-ish, and may contain bug fixes, non-breaking changes, minor new features and non-breaking dependency changes.
 
-  I will be pinning my own projects' nwb version range against these - e.g. `"nwb": "0.12.x"` - but **[if in doubt](https://medium.com/@kentcdodds/why-semver-ranges-are-literally-the-worst-817cdcb09277), pin your dependencies against an exact version**.
+  I will be pinning my own projects' nwb version range against these - e.g. `"@ksakira10/nwb": "0.12.x"` - but **[if in doubt](https://medium.com/@kentcdodds/why-semver-ranges-are-literally-the-worst-817cdcb09277), pin your dependencies against an exact version**.
 
 > Version 1.0.0 defines the public API. The way in which the version number is incremented after this release is dependent on this public API and how it changes.

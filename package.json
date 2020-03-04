@@ -1,5 +1,5 @@
 {
-  "name": "nwb",
+  "name": "@ksakira10/nwb",
   "description": "A toolkit for React, Preact & Inferno apps, React libraries and other npm modules for the web, with no configuration (until you need it)",
   "version": "0.23.0",
   "license": "MIT",
@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
-    "build:watch": "rimraf lib && babel src --watch --out-dir lib",
-    "flow": "flow-bin",
+    "start": "rimraf lib && babel src --watch --out-dir lib",
+    "flow": "flow",
     "lint": "eslint *.js src tests",
     "lint:fix": "npm run lint -- --fix",
     "test": "npm run build && npm run test:all",
@@ -29,51 +29,48 @@
     "node": ">=8.9.0"
   },
   "dependencies": {
-    "chalk": "2.4.2",
-    "copy-template-dir": "1.4.0",
-    "cross-spawn": "6.0.5",
-    "debug": "4.1.1",
-    "detect-port": "1.3.0",
-    "figures": "2.0.0",
-    "filesize": "4.1.2",
-    "fs-extra": "7.0.1",
-    "gzip-size": "5.0.0",
-    "inquirer": "6.2.2",
-    "minimist": "1.2.0",
-    "ora": "3.2.0",
-    "resolve": "1.10.0",
-    "run-series": "1.1.8",
-    "semver": "5.6.0",
-    "webpack-merge": "4.2.1",
-
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.3",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-syntax-jsx": "^7.8.3",
+    "@babel/plugin-transform-react-constant-elements": "^7.8.3",
+    "@babel/plugin-transform-react-jsx": "^7.8.3",
+    "@babel/plugin-transform-react-jsx-self": "^7.8.3",
+    "@babel/plugin-transform-react-jsx-source": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-flow": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/runtime": "^7.8.4",
+    "@insin/npm-install-webpack-plugin": "5.0.0",
+    "autoprefixer": "9.4.10",
+    "babel-loader": "^8.0.6",
     "babel-plugin-add-module-exports": "1.0.0",
     "babel-plugin-inferno": "5.1.0",
     "babel-plugin-istanbul": "4.1.6",
     "babel-plugin-lodash": "3.2.11",
     "babel-plugin-react-transform": "3.0.0",
-    "babel-plugin-syntax-dynamic-import": "6.18.0",
-    "babel-plugin-syntax-jsx": "6.18.0",
     "babel-plugin-transform-decorators-legacy": "1.3.5",
     "babel-plugin-transform-react-constant-elements": "6.23.0",
-    "babel-plugin-transform-react-jsx": "6.24.1",
-    "babel-plugin-transform-react-jsx-self": "6.22.0",
-    "babel-plugin-transform-react-jsx-source": "6.22.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.10",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-polyfill": "6.26.0",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "babel-preset-stage-0": "6.24.1",
-    "babel-preset-stage-1": "6.24.1",
-    "babel-preset-stage-2": "6.24.1",
-    "babel-preset-stage-3": "6.24.1",
-    "babel-runtime": "6.26.0",
-    "react-transform-catch-errors": "1.0.2",
-    "react-transform-hmr": "1.0.4",
-    "redbox-noreact": "1.1.0",
-
+    "case-sensitive-paths-webpack-plugin": "2.2.0",
+    "chalk": "2.4.2",
+    "copy-template-dir": "1.4.0",
+    "copy-webpack-plugin": "5.0.0",
+    "cross-spawn": "6.0.5",
+    "css-loader": "2.1.1",
+    "debug": "4.1.1",
+    "detect-port": "1.3.0",
+    "eventsource-polyfill": "0.9.6",
+    "expect": "1.20.2",
+    "figures": "2.0.0",
+    "file-loader": "3.0.1",
+    "filesize": "4.1.2",
+    "fs-extra": "7.0.1",
+    "gzip-size": "5.0.0",
+    "html-webpack-plugin": "3.2.0",
+    "inquirer": "6.2.2",
     "karma": "4.0.1",
     "karma-chrome-launcher": "2.2.0",
     "karma-coverage": "1.1.2",
@@ -82,38 +79,33 @@
     "karma-phantomjs-launcher": "1.0.4",
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "3.0.5",
-    "phantomjs-prebuilt": "2.1.16",
-
-    "mocha": "6.0.2",
-    "expect": "1.20.2",
-
-    "object-assign": "4.1.1",
-    "promise": "8.0.2",
-    "whatwg-fetch": "3.0.0",
-
-    "webpack": "4.29.6",
-    "autoprefixer": "9.4.10",
-    "babel-loader": "7.1.5",
-    "case-sensitive-paths-webpack-plugin": "2.2.0",
-    "copy-webpack-plugin": "5.0.0",
-    "css-loader": "2.1.1",
-    "eventsource-polyfill": "0.9.6",
-    "file-loader": "3.0.1",
-    "html-webpack-plugin": "3.2.0",
     "mini-css-extract-plugin": "0.5.0",
-    "@insin/npm-install-webpack-plugin": "5.0.0",
+    "minimist": "1.2.0",
+    "mocha": "6.0.2",
+    "object-assign": "4.1.1",
     "opn": "5.4.0",
+    "ora": "3.2.0",
+    "phantomjs-prebuilt": "2.1.16",
     "postcss-loader": "3.0.0",
+    "promise": "8.0.2",
+    "react-transform-catch-errors": "1.0.2",
+    "react-transform-hmr": "1.0.4",
+    "redbox-noreact": "1.1.0",
+    "resolve": "1.10.0",
+    "run-series": "1.1.8",
+    "semver": "5.6.0",
     "style-loader": "0.23.1",
-    "url-loader": "1.1.2",
     "terser-webpack-plugin": "1.2.3",
-    "webpack-dev-middleware": "3.6.1",
-    "webpack-dev-server": "3.2.1",
-    "webpack-hot-middleware": "2.24.3"
+    "url-loader": "1.1.2",
+    "webpack": "^4.42.0",
+    "webpack-dev-middleware": "^3.6.1",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-merge": "^4.2.1",
+    "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "babel-preset-flow": "6.23.0",
-    "babel-register": "6.26.0",
+    "@babel/register": "^7.8.6",
     "cross-env": "5.2.0",
     "eslint-config-jonnybuchanan": "6.0.0",
     "eventsource": "1.0.7",
@@ -126,7 +118,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/insin/nwb.git"
+    "url": "https://github.com/KsAkira10/nwb.git"
   },
   "keywords": [
     "development",
@@ -137,24 +129,30 @@
   ],
   "babel": {
     "presets": [
-      "flow",
-      ["env", {
-        "loose": true,
-        "targets": {
-          "node": "6.11.5"
+      "@babel/preset-flow",
+      [
+        "@babel/preset-env",
+        {
+          "loose": true,
+          "targets": {
+            "node": "6.11.5"
+          }
         }
-      }],
-      "stage-2"
+      ]
     ],
     "plugins": [
+      "@babel/plugin-proposal-class-properties",
       "add-module-exports"
     ],
     "env": {
       "test": {
         "plugins": [
-          ["istanbul", {
-            "include": "src"
-          }]
+          [
+            "istanbul",
+            {
+              "include": "src"
+            }
+          ]
         ]
       }
     }
@@ -166,7 +164,7 @@
       "text-summary"
     ],
     "require": [
-      "babel-core/register"
+      "@babel/register"
     ],
     "sourceMap": false
   }
