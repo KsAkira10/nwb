@@ -1,7 +1,7 @@
 {
   "name": "@ksakira10/nwb",
   "description": "A toolkit for React, Preact & Inferno apps, React libraries and other npm modules for the web, with no configuration (until you need it)",
-  "version": "0.24.6",
+  "version": "0.25.0",
   "license": "MIT",
   "author": "Jonny Buchanan <jonathan.buchanan@gmail.com>",
   "bin": {
@@ -104,7 +104,7 @@
     "webpack-hot-middleware": "^2.24.3",
     "webpack-merge": "^4.2.1",
     "whatwg-fetch": "3.0.0",
-    "@babel/plugin-syntax-dynamic-import": "7.0.0",    
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "babel-preset-proposals": "0.1.0",
     "react-hot-loader": "4.3.11",
     "react-hot-loader-loader": "0.0.6"
