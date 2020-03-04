@@ -3,5 +3,7 @@
     "configFile": "node_modules/eslint-config-jonnybuchanan/.eslintrc"
   },
   "eslint.nodePath": "node_modules/eslint-config-jonnybuchanan/node_modules",
-  "flow.useNPMPackagedFlow": true
+  "flow.useNPMPackagedFlow": true,
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false
 }

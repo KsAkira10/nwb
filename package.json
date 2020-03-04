@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm run flow && npm run lint && rimraf lib && babel src --out-dir lib --quiet",
     "build:watch": "rimraf lib && babel src --watch --out-dir lib",
-    "flow": "flow",
+    "flow": "flow-bin",
     "lint": "eslint *.js src tests",
     "lint:fix": "npm run lint -- --fix",
     "test": "npm run build && npm run test:all",
