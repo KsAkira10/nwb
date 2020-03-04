@@ -127,9 +127,7 @@ export default function createBabelConfig(
   // without configuration.
   let runtimeTransformOptions: Object = {
     absoluteRuntime: false,
-    corejs: false,
-    helpers: true,
-    regenerator: true,
+    corejs: 3,
     useESModules: true,
   }
   if (setRuntimePath !== false) {
